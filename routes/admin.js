@@ -7,7 +7,7 @@ var collection=require('../config/schema');
 router.get('/view-products', async function(req, res, next) {
   try {
     // Retrieve all products from the database
-    const products = await Product.find();
+    const products = await Product.find().lean();
     console.log(products)
 
     // Render the view-products template with the retrieved products

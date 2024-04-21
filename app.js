@@ -12,6 +12,7 @@ var mongoose=require("mongoose");
 
 
 
+
 var app = express();
 var fileUpload=require('express-fileupload')
 var db=require('./config/connection');
@@ -20,6 +21,9 @@ var db=require('./config/connection');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.set('view engine', 'hbs');
 app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}))
 
