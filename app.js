@@ -8,8 +8,7 @@ var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 var hbs=require('express-handlebars');
 var mongoose=require("mongoose");
-
-
+var session=require('express-session')
 
 
 
@@ -21,9 +20,6 @@ var db=require('./config/connection');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.set('view engine', 'hbs');
 app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}))
 
@@ -33,6 +29,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+app.use(session({
+  secret: 'key',
+  resave: false, // Set resave option to false
+  saveUninitialized: true, // Set saveUninitialized option to true
+  cookie: {
+      maxAge: 600000
+  }
+}));
 
 
 app.use('/', userRouter);

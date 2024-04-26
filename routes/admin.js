@@ -1,45 +1,49 @@
 var express = require('express');
 var router = express.Router();
-const Product = require('../helpers/product-helpers');
-var collection=require('../config/schema');
+const Bus = require('../helpers/map-helpers'); // Import the Bus model
 
-/* GET users listing. */
-router.get('/view-products', async function(req, res, next) {
-  try {
-    // Retrieve all products from the database
-    const products = await Product.find().lean();
-    console.log(products)
-
-    // Render the view-products template with the retrieved products
-    res.render('admin/view-products', { admin: true, products });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+/* GET admin dashboard. */
+router.get('/', function(req, res, next) {
+  // Render the admin dashboard view
+  res.render('admin/add-location', { admin: true }); // Assuming you have an admin/index view
 });
 
-router.get('/add-products',function(req,res){
-  res.render('admin/add-products',{admin:true});
+/* GET form to add new bus location. */
+router.get('/add-location', function(req, res, next) {
+  // Render the form to add new bus location
+  res.render('admin/add-location');
 });
 
-router.post('/add-products', async (req, res) => {
+//* POST route to add new bus location. */
+router.post('/add-location', async function(req, res, next) {
   try {
-    // Create a new product instance
-    const newProduct = new Product({
-      name:req.body.name,
-      category:req.body.category,
-      price:req.body.price,
-      description:req.body.description,
+    // Extract data from the request body
+    const { name, latitude, longitude, route } = req.body;
+
+    // Create a new Bus instance with the provided data
+    const newBus = new Bus({
+      name,
+      latitude,
+      longitude,
+      route
     });
 
-    // Save the new product to the database
-    await newProduct.save();
-    
+    // Save the new bus location to the database
+    await newBus.save();
 
-    res.status(201).json({ message: 'Product added successfully' });
+    // After saving, fetch all bus locations from the database
+    const allBusLocations = await Bus.find({});
+
+    // Send all bus locations to the client
+    res.render('admin/add-location', { admin: true, busLocations: allBusLocations });
+
+    // Alternatively, you can redirect to a route that displays the map with the updated bus locations
+    // res.redirect('/map');
+
   } catch (error) {
+    // Handle any errors that occur during the process
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).send('An error occurred while adding the location.');
   }
 });
 
