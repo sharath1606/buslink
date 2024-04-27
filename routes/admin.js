@@ -49,11 +49,20 @@ router.post('/add-location', async function(req, res, next) {
 router.get('/bustickets', async function(req, res, next) {
   try {
     // Retrieve all products from the database
-    const tickets = await BusTicket.find();
+    const tickets = await BusTicket.find().exec();
+    const data_source=tickets.map(ticket =>{
+      return{
+        source: ticket.source,
+        destination: ticket.destination,
+        date:ticket.date,
+        bookingDate:ticket.bookingDate,
+        numberOfPassengers:ticket.numberOfPassengers,
+      }
+    })
     console.log(tickets);
 
     // Render the view-products template with the retrieved products
-    res.render('admin/bustickets', { admin: true, tickets});
+    res.render('admin/bustickets', { admin: true, tickets:tickets,data:data_source});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

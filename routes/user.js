@@ -40,9 +40,23 @@ router.get('/trackbus', function(req, res, next) {
           // Save the new bus ticket to the database
           const savedTicket = await newTicket.save();
           console.log(savedTicket);
-  
+          const qrCodeData = JSON.stringify({
+            source: req.body.source,
+            destination: req.body.destination,
+            date: req.body.date,
+            passengers: req.body.passengers
+        });
+        qrcode.toDataURL(qrCodeData, (err, qrCodeUrl) => {
+        if (err) {
+              console.error('Error generating QR code:', err);
+              res.status(500).send('Internal Server Error');
+          } else {
+              
+              res.render('user/booking-success', { admin:false,qrCodeUrl });
+          }
+      });
           // Redirect the user to a success page or any other appropriate route
-          res.redirect('/booking-success');
+          // res.redirect('/booking-success');
       } catch (error) {
           console.error("Error in booking bus ticket:", error);
           res.redirect('/error'); // Redirect to an error page if there's an error
