@@ -1,0 +1,36 @@
+<!-- busTickets.handlebars -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Tickets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style=" background-image: url('/images/image1.jpg');
+            background-size: cover;">
+    <div class="container ">
+        <h2 style="color: white;" class="mt-5 text-center" >Bus Tickets</h2>
+        <table class="table mt-3" style="color: white;">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Number of Passengers</th>
+                </tr>
+            </thead>
+            <tbody style="color: white;">
+                {{#each tickets}}
+                    <tr>
+                        <td>{{source}}</td>
+                        <td>{{destination}}</td>
+                        <td>{{date}}</td>
+                        <td>{{numberOfPassengers}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

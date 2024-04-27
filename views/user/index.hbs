@@ -1,17 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+         .btn1 {
+            padding: 14px 28px; /* Adjust padding to increase button size */
+            font-size: 17px; /* Adjust font size to increase button text size */
+            /* You can also adjust other properties like width */
+        }
+        /* Add gap between buttons */
+        .btn-gap {
+            margin-right: 10px; /* Adjust the margin to add space between buttons */
+        }
+        /* Custom styles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            color: #333;
+            font-weight: bold;
+        }
+        .card-text {
+            color: #666;
+        }
+        .feature-icon {
+            color: #007bff;
+            margin-right: 10px;
+        }
+        /* Background image styles */
+        section {
+            background-image: url('/images/image1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 100px 0; /* Adjust padding as needed */
+            color: #fff; /* Set text color to white for better contrast */
+        }
+    </style>
+</head>
+<body>
+
 <section>
     <div class="container">
         <div class="row front">
             <div class="col-md-6">
-                <h2 class="h1 hero-title">
+                <h2 class=" hero-title">
                     <span class="span">Your </span>
                 </h2>
                 <h2 class="hero-text">5-Minute Bus tracker</h2>
                 <p class="para">Connecting You to Your Destination with Ease!</p>
-                 <a class="btn btn-success mt-3 ml-3" href="/bookbus">Book</a>
-                <!-- Modify the Track button to include JavaScript -->
-                <a class="btn btn-success mt-3 ml-3" href="/trackbus">Track</a>
-
+                <a class="btn1 btn-success mt-5 ml-1" href="/bookbus">Book</a>
+                <a class="btn1 btn-success mt-5 ml-4" href="/trackbus">Track</a>
             </div>
         </div>
     </div>
 </section>
+<section>
+<div class="container">
+    <h1 class="mt-5 section-title">Our Services</h1>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 1</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis ut magna lacinia ultrices. Suspendisse potenti.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 2</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis ut magna lacinia ultrices. Suspendisse potenti.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 3</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis ut magna lacinia ultrices. Suspendisse potenti.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="section-title">User Reviews</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User 1</h5>
+                        <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis ut magna lacinia ultrices."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User 2</h5>
+                        <p class="card-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in felis ut magna lacinia ultrices."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="section-title">Additional Features</h1>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa fa-check-circle feature-icon"></i>Feature 1</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa fa-check-circle feature-icon"></i>Feature 2</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa fa-check-circle feature-icon"></i>Feature 3</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Your other content here -->
+</div>
+
+</section>
+</body>
+</html>

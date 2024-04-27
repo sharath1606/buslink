@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Bus = require('../helpers/map-helpers'); // Import the Bus model
-
+const BusTicket = require('../helpers/ticket-booking');
 /* GET admin dashboard. */
 router.get('/', function(req, res, next) {
   // Render the admin dashboard view
@@ -44,6 +44,19 @@ router.post('/add-location', async function(req, res, next) {
     // Handle any errors that occur during the process
     console.error(error);
     res.status(500).send('An error occurred while adding the location.');
+  }
+});
+router.get('/bustickets', async function(req, res, next) {
+  try {
+    // Retrieve all products from the database
+    const tickets = await BusTicket.find();
+    console.log(tickets);
+
+    // Render the view-products template with the retrieved products
+    res.render('admin/bustickets', { admin: true, tickets});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

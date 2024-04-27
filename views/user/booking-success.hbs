@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Success</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    /* Add custom styles here */
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background-color: #007bff;
+      color: #fff;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+    .card-body {
+      background-color: #f8f9fa;
+    }
+    label {
+      font-weight: bold;
+    }
+    .form-control {
+      border-radius: 8px;
+    }
+    button {
+      border-radius: 8px;
+    }
+    .qr-code {
+      max-width: 300px; /* Adjust as needed */
+      margin: 20px auto; /* Center the QR code */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Booking Success</h3>
+          </div>
+          <div class="card-body">
+            <h5 class="text-center mb-4">Your ticket has been successfully booked!</h5>
+            <p class="text-center">Please find your QR code below:</p>
+            <img src="{{ qrCodeUrl }}" alt="QR Code" class="qr-code">
+            <p class="text-center mt-4">Scan this QR code to access your ticket details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
