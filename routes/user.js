@@ -4,6 +4,7 @@ const User = require('../helpers/signup-helpers');
 const BusTicket = require('../helpers/ticket-booking');
 const bcrypt = require('bcrypt');
 const { response } = require('../app');
+const qrcode = require('qrcode');
 
 
 /* GET home page. */
