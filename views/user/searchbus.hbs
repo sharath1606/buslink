@@ -6,35 +6,46 @@
     <title>Container Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Global styles */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
         /* Container section */
         section {
-            background-image: url('/images/image1.jpg'); /* Specify the path to your background image */
+            background-image: url('/images/image1.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding: 100px 0; /* Adjust padding as needed */
-            color: #fff; /* Set text color to white for better contrast */
+            padding: 100px 0;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Form container styles */
         .form-container {
-            max-width: 500px; /* Adjust the maximum width of the form container */
-            margin: 0 auto; /* Center the form container horizontally */
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background color */
+            max-width: 500px;
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 30px;
-            border-radius: 10px; /* Add border radius for rounded corners */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add box shadow for depth */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         /* Input field styles */
         .form-field {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px; /* Add space between input fields */
+            margin-bottom: 20px;
             border: none;
-            border-radius: 5px; /* Add border radius for rounded corners */
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background color */
-            color: #333; /* Set text color to dark */
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
             font-size: 16px;
         }
 
@@ -43,69 +54,86 @@
             width: 100%;
             padding: 15px;
             border: none;
-            border-radius: 5px; /* Add border radius for rounded corners */
-            background-color: #007bff; /* Set button background color */
-            color: #fff; /* Set text color to white */
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
             font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s; /* Add transition effect */
+            transition: background-color 0.3s;
         }
 
         .search-button:hover {
-            background-color: #0056b3; /* Change background color on hover */
+            background-color: #0056b3;
         }
 
-        /* Additional styles for form elements (e.g., placeholders, datalist) */
+        /* Placeholder styles */
         ::placeholder {
-            color: #ccc; /* Set placeholder text color */
+            color: #ccc;
         }
+
+        /* Icon styles */
         .search-icon {
             color: #777;
         }
 
-        /* Optional: Media query for responsive design */
+        /* Responsive design */
         @media (max-width: 768px) {
             .form-container {
-                width: 90%; /* Adjust the width for smaller screens */
+                width: 90%;
             }
+        }
+        .item.date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn1 {
+            padding: 14px 28px; /* Adjust padding to increase button size */
+            font-size: 17px; /* Adjust font size to increase button text size */
+            /* You can also adjust other properties like width */
         }
     </style>
 </head>
 <body>
 
-<section >
+<section>
     <div class="container">
         <div class="row">
             <div class="col-md-6 mx-auto">
-                <div class="form-container">
-                    <input list="from-place" type="text" placeholder="FROM" class="form-field" autocomplete="off" id="from">
-                    <datalist id="from-place">
-                        <option>Mangalore</option>
-                        <option>Mumbai(All locations)</option>
-                        <option>Madras</option>
-                        <option>Madurai</option>
-                        <option>Madiwala,Bangalore</option>
-                        <option>Majestic,Bangalore</option>
-                    </datalist>
-                    <div class="item to">
-                        <div class="search-icon"><i class="bi bi-building"></i></div>
-                        <input list="to-place" type="text" placeholder="TO" class="form-field" id="to">
-                        <datalist id="to-place">
-                            <option>Bihar</option>
-                            <option>Bangalore(All locations)</option>
-                            <option>Bhuvaneswar</option>
-                            <option>Baroda</option>
+                <div class="form-container text-center">
+                    <form action="/searchbus" method="post">
+                        <label class="text-center" for="from">Starting Location:</label>
+                        <input list="from-place" type="text" name="startingLocation" placeholder="FROM" class="form-field" autocomplete="off" id="from">
+                        <datalist id="from-place">
+                            <option value="Thrissur">Thrissur</option>
+                            <option value="wadakanchery">wadakanchery</option>
+                            <option value="cherthuruthy">cherthuruthy</option>
+                            <option value="vetikatri">vetikatri</option>
+                           
                         </datalist>
-                    </div>
-                    <div class="item date">
-                        <input type="text" placeholder="DATE" onfocus="(this.type='date')" id="select-date" onblur="if(this.value==''){this.type='text'}" data-date="" data-date-format="DD MMMM YYYY">
-                    </div>
-                    <div class="search-button" onclick="callBusPage()">Search Buses</div>
+                        <div class="item to">
+                            <label class="text-center" for="to">Destination:</label>
+                            <div class="search-icon"><i class="bi bi-building"></i></div>
+                            <input list="to-place" type="text" name="destination" placeholder="TO" class="form-field" id="to">
+                            <datalist id="to-place">
+                                 <option value="Thrissur">Thrissur</option>
+                            <option value="wadakanchery">wadakanchery</option>
+                            <option value="cherthuruthy">cherthuruthy</option>
+                            <option value="vetikatri">vetikatri</option>
+                            </datalist>
+                        </div>
+                        <div class="item date mb-5">
+                            <label for="select-date">Date:</label>
+                            <input  type="text" placeholder="DATE" onfocus="(this.type='date')" id="select-date" onblur="if(this.value==''){this.type='text'}" data-date="" data-date-format="DD MMMM YYYY">
+                        </div>
+                        <button type="submit" class="btn1 btn-success mt-5 ml-4">Search</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 </body>
 </html>

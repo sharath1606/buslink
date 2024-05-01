@@ -10,40 +10,76 @@ const Location = require('../helpers/map-helpers');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  req.session.loggedIn=true;
     let user = req.session.user;
     console.log(user); // Log the user object
-    res.render('user/index', { admin: false, user });
+    res.render('user/index', { user: req.session.user });
 });
 
 
 
  
-   router.get('/trackbus', async (req, res) => {
-    try {
-        // Retrieve coordinates from the database (assuming you're using Mongoose)
-        const coordinates = await Location.findOne(); // Adjust this query as needed
+router.get('/trackbus', async (req, res) => {
+  try {
+      // Retrieve coordinates from the database (assuming you're using Mongoose)
+      const coordinates = await Location.find().exec();
+      const cord = coordinates.map(co =>({
+        latitude: co.latitude,
+        longitude: co.longitude,
+        accuracy: co.accuracy,
+      }))
+
         
-        // Respond with the coordinates as JSON
-        res.json(coordinates);
-    } catch (error) {
-        console.error('Error fetching coordinates:', error);
-        res.status(500).send('Internal Server Error');
-    }
+      console.log(coordinates);
+      // Render a webpage and pass the coordinates to it
+      res.render('user/trackbus', { admin:false,coordinates: coordinates ,daata:JSON.stringify(cord)});
+  } catch (error) {
+      console.error('Error fetching coordinates:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
+
     
     router.get('/booking-success', function(req, res, next) {
 
  
       res.render('user/booking-success', {admin:false});
       });
+      router.get('/services', function(req, res, next) {
+        
+ 
+        res.render('user/services', {admin:false,user: req.session.user});
+        });
     router.get('/bookbus', function(req, res, next) {
         // Render the "user/bookbus" view with the specified content
         res.render('user/bookbus', { admin: false });
     });
+    router.get('/showbus', function(req, res, next) {
+      // Render the "user/bookbus" view with the specified content
+      res.render('user/showbus', { admin: false });
+  });
     router.get('/searchbus', function(req, res, next) {
       // Render the "user/searchbus" view with the specified content
       res.render('user/searchbus', { admin: false });
   });
+  router.post('/searchbus', (req, res) => {
+    const startingLocation = req.body.startingLocation;
+    const destination = req.body.destination;
+
+    // Logic to determine the appropriate page based on startingLocation and destination
+    // Set the default URL
+    
+    if (startingLocation === "Thrissur" && destination === "cherthuruthy") {
+        redirectUrl = "showbus"; // Redirect to the specific page
+    } else if (startingLocation === "Mumbai(All locations)" && destination === "Bangalore(All locations)") {
+        redirectUrl = "/mumbai_to_bangalore"; // Redirect to the specific page
+    } else {
+        redirectUrl = "/no_route_available"; // Redirect to a page indicating no route available
+    }
+
+    res.redirect(redirectUrl);
+});
+
   
     router.post('/bookbus', async (req, res) => {
       try {
@@ -113,41 +149,34 @@ router.get('/login', function(req, res, next) {
           
         
 
-          router.post('/login',async(req,res)=>{
+          router.post('/login', async (req, res) => {
             const { email, password } = req.body;
-          
+        
             try {
-              const user = await User.findOne({ email });
-          
-          
-          
-              if (user) {
-                const isPasswordValid = await bcrypt.compare(password, user.password);
-                if (isPasswordValid) {
-                    console.log('user and password correct');
-                    req.session.loggedIn = true;
-                   
-                    req.session.user = user; // corrected variable name
-                    res.redirect('/user');
+                const user = await User.findOne({ email });
+        
+                if (user) {
+                    const isPasswordValid = await bcrypt.compare(password, user.password);
+                    
+                    if (isPasswordValid) {
+                        req.session.loggedIn = true;
+                        req.session.user = user;
+                        // Redirect to user dashboard and pass user's name
+                        return res.redirect('/');
+                    } else {
+                        console.log('Invalid password');
+                        return res.redirect('/');
+                    }
+                } else {
+                    console.log('User not found');
+                    return res.redirect('/');
                 }
-                
-          
-              else if (!isPasswordValid) {
-                console.log('invalid password')
-                res.redirect('/')
-              }
-              }
-          
-              if(!user){
-                console.log('user not found')
-                res.redirect('/')
-              }
-          
             } catch (error) {
-              console.error(error);
-              console.log(error)
+                console.error('Error during login:', error);
+                return res.status(500).send('Internal Server Error');
             }
-          });
+        });
+        
           
           /*user page */
           router.get('/user', function(req, res, next){

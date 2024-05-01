@@ -9,7 +9,7 @@ router.get('/add-location', function(req, res, next) {
   res.render('admin/add-location', { admin: true }); 
 });
 
-router.post('/admin/add-location', async function(req, res, next) {
+router.post('/add-location', async function(req, res, next) {
   
   try {
     // Extract latitude, longitude, and accuracy from the request body

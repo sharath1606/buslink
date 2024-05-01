@@ -3,40 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map with Coordinates</title>
-    <!-- Include Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <title>Map</title>
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
-        #map { height: 100vh; }
+        #map { height: 400px; }
     </style>
 </head>
 <body>
     <div id="map"></div>
-    <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Initialize the map
-        var map = L.map('map').setView([0, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        // Initialize Leaflet map
+        var map = L.map('map').setView([51.505, -0.09], 13); // Set initial view
 
-        // Function to fetch coordinates from the server
-        function fetchCoordinatesAndPlot() {
-            fetch('/trackbus') // Fetch coordinates from server
-                .then(response => response.json())
-                .then(data => {
-                    // Plot each coordinate on the map
-                    data.forEach(coord => {
-                        L.marker([10.5276,76.2144]).addTo(map);
-                    });
-                })
-                .catch(error => console.error('Error fetching coordinates:', error));
-        }
-       L.marker([10.5276,76.2144]).addTo(map);
-        // Call fetchCoordinatesAndPlot function to fetch and plot coordinates
-        fetchCoordinatesAndPlot();
+        // Add a tile layer (replace this URL with your preferred tile provider)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-        // Optional: Refresh coordinates every 30 seconds
-        setInterval(fetchCoordinatesAndPlot, 30000); // Adjust interval as needed
+        // Add marker for each coordinate
+        var daataa = {{ daata }};
+        
+        daataa.forEach(coord => {
+            console.log(coord)
+            L.marker([coord.latitude, coord.longitude]).addTo(map);
+        });
     </script>
+    
+    
 </body>
 </html>
