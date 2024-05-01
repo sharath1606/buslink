@@ -1,45 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Location</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime location tracker</title>
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            Add New Location
-          </div>
-          <div class="card-body">
-            <form action="/admin/add-location" method="POST">
-              <div class="form-group">
-                <label for="locationName">Location Name</label>
-                <input type="text" class="form-control" id="locationName" name="name" placeholder="Enter location name" required>
-              </div>
-              <div class="form-group">
-                <label for="latitude">Latitude</label>
-                <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude" required>
-              </div>
-              <div class="form-group">
-                <label for="longitude">Longitude</label>
-                <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Enter longitude" required>
-              </div>
-              <div class="form-group">
-                <label for="route">Route</label>
-                
-                <input type="text" class="form-control" id="route" name="route" placeholder="Enter route" required>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block">Add Location</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div id="map"></div>
 </body>
 </html>
+
+<!-- leaflet js  -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Map initialization 
+    var map = L.map('map').setView([14.0860746, 100.608406], 6);
+
+    //osm layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    if(!navigator.geolocation) {
+        console.log("Your browser doesn't support geolocation feature!")
+    } else {
+        setInterval(() => {
+            navigator.geolocation.getCurrentPosition(getPosition)
+        }, 5000);
+    }
+
+    var marker, circle;
+
+    function sendLocationToServer(lat, long, accuracy) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "add-location", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Location sent successfully!");
+        }
+    };
+    
+    var data = JSON.stringify({
+        latitude: lat,
+        longitude: long,
+        accuracy: accuracy
+    });
+    
+    xhr.send(data);
+}
+
+
+
+    function getPosition(position){
+        // console.log(position)
+        var lat = position.coords.latitude
+        var long = position.coords.longitude
+        var accuracy = position.coords.accuracy
+
+        if(marker) {
+            map.removeLayer(marker)
+        }
+
+        if(circle) {
+            map.removeLayer(circle)
+        }
+
+        marker = L.marker([lat, long])
+        circle = L.circle([lat, long], {radius: accuracy})
+
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+        map.fitBounds(featureGroup.getBounds())
+
+        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
+
+        sendLocationToServer(lat,long,accuracy)        
+    }
+
+</script>
+

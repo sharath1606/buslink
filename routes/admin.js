@@ -1,51 +1,40 @@
 var express = require('express');
 var router = express.Router();
-const Bus = require('../helpers/map-helpers'); // Import the Bus model
+
 const BusTicket = require('../helpers/ticket-booking');
+const Location = require('../helpers/map-helpers');
 /* GET admin dashboard. */
-router.get('/', function(req, res, next) {
-  // Render the admin dashboard view
-  res.render('admin/add-location', { admin: true }); // Assuming you have an admin/index view
-});
-
-/* GET form to add new bus location. */
 router.get('/add-location', function(req, res, next) {
-  // Render the form to add new bus location
-  res.render('admin/add-location');
+  // Render the admin dashboard view
+  res.render('admin/add-location', { admin: true }); 
 });
 
-//* POST route to add new bus location. */
-router.post('/add-location', async function(req, res, next) {
+router.post('/admin/add-location', async function(req, res, next) {
+  
   try {
-    // Extract data from the request body
-    const { name, latitude, longitude, route } = req.body;
+    // Extract latitude, longitude, and accuracy from the request body
+    const { latitude, longitude, accuracy } = req.body;
 
-    // Create a new Bus instance with the provided data
-    const newBus = new Bus({
-      name,
+    // Create a new Location instance with the provided data
+    const newLocation = new Location({
       latitude,
       longitude,
-      route
+      accuracy
     });
 
-    // Save the new bus location to the database
-    await newBus.save();
+    // Save the new location to the database
+    await newLocation.save();
 
-    // After saving, fetch all bus locations from the database
-    const allBusLocations = await Bus.find({});
-
-    // Send all bus locations to the client
-    res.render('admin/add-location', { admin: true, busLocations: allBusLocations });
-
-    // Alternatively, you can redirect to a route that displays the map with the updated bus locations
-    // res.redirect('/map');
-
+    // Send a success response
+    res.status(201).send('Location added successfully.');
   } catch (error) {
     // Handle any errors that occur during the process
     console.error(error);
     res.status(500).send('An error occurred while adding the location.');
   }
 });
+
+
 router.get('/bustickets', async function(req, res, next) {
   try {
     // Retrieve all products from the database

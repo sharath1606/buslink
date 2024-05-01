@@ -5,6 +5,7 @@ const BusTicket = require('../helpers/ticket-booking');
 const bcrypt = require('bcrypt');
 const { response } = require('../app');
 const qrcode = require('qrcode');
+const Location = require('../helpers/map-helpers');
 
 
 /* GET home page. */
@@ -14,11 +15,22 @@ router.get('/', function(req, res, next) {
     res.render('user/index', { admin: false, user });
 });
 
-router.get('/trackbus', function(req, res, next) {
+
 
  
-    res.render('user/trackbus', {admin:false});
-    });
+   router.get('/trackbus', async (req, res) => {
+    try {
+        // Retrieve coordinates from the database (assuming you're using Mongoose)
+        const coordinates = await Location.findOne(); // Adjust this query as needed
+        
+        // Respond with the coordinates as JSON
+        res.json(coordinates);
+    } catch (error) {
+        console.error('Error fetching coordinates:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+    
     router.get('/booking-success', function(req, res, next) {
 
  
@@ -28,6 +40,11 @@ router.get('/trackbus', function(req, res, next) {
         // Render the "user/bookbus" view with the specified content
         res.render('user/bookbus', { admin: false });
     });
+    router.get('/searchbus', function(req, res, next) {
+      // Render the "user/searchbus" view with the specified content
+      res.render('user/searchbus', { admin: false });
+  });
+  
     router.post('/bookbus', async (req, res) => {
       try {
           // Create a new BusTicket instance using the data from the request body
@@ -109,7 +126,7 @@ router.get('/login', function(req, res, next) {
                 if (isPasswordValid) {
                     console.log('user and password correct');
                     req.session.loggedIn = true;
-                    response.user=user
+                   
                     req.session.user = user; // corrected variable name
                     res.redirect('/user');
                 }

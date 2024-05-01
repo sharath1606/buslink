@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Container section */
+        section {
+            background-image: url('/images/image1.jpg'); /* Specify the path to your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 100px 0; /* Adjust padding as needed */
+            color: #fff; /* Set text color to white for better contrast */
+        }
+
+        /* Form container styles */
+        .form-container {
+            max-width: 500px; /* Adjust the maximum width of the form container */
+            margin: 0 auto; /* Center the form container horizontally */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background color */
+            padding: 30px;
+            border-radius: 10px; /* Add border radius for rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add box shadow for depth */
+        }
+
+        /* Input field styles */
+        .form-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px; /* Add space between input fields */
+            border: none;
+            border-radius: 5px; /* Add border radius for rounded corners */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background color */
+            color: #333; /* Set text color to dark */
+            font-size: 16px;
+        }
+
+        /* Search button styles */
+        .search-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px; /* Add border radius for rounded corners */
+            background-color: #007bff; /* Set button background color */
+            color: #fff; /* Set text color to white */
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Add transition effect */
+        }
+
+        .search-button:hover {
+            background-color: #0056b3; /* Change background color on hover */
+        }
+
+        /* Additional styles for form elements (e.g., placeholders, datalist) */
+        ::placeholder {
+            color: #ccc; /* Set placeholder text color */
+        }
+        .search-icon {
+            color: #777;
+        }
+
+        /* Optional: Media query for responsive design */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 90%; /* Adjust the width for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<section >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="form-container">
+                    <input list="from-place" type="text" placeholder="FROM" class="form-field" autocomplete="off" id="from">
+                    <datalist id="from-place">
+                        <option>Mangalore</option>
+                        <option>Mumbai(All locations)</option>
+                        <option>Madras</option>
+                        <option>Madurai</option>
+                        <option>Madiwala,Bangalore</option>
+                        <option>Majestic,Bangalore</option>
+                    </datalist>
+                    <div class="item to">
+                        <div class="search-icon"><i class="bi bi-building"></i></div>
+                        <input list="to-place" type="text" placeholder="TO" class="form-field" id="to">
+                        <datalist id="to-place">
+                            <option>Bihar</option>
+                            <option>Bangalore(All locations)</option>
+                            <option>Bhuvaneswar</option>
+                            <option>Baroda</option>
+                        </datalist>
+                    </div>
+                    <div class="item date">
+                        <input type="text" placeholder="DATE" onfocus="(this.type='date')" id="select-date" onblur="if(this.value==''){this.type='text'}" data-date="" data-date-format="DD MMMM YYYY">
+                    </div>
+                    <div class="search-button" onclick="callBusPage()">Search Buses</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
