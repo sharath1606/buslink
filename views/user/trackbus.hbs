@@ -1,36 +1,44 @@
+<!-- user/trackbus.hbs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map</title>
-    <!-- Include Leaflet CSS and JavaScript -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title>Track Bus</title>
     <style>
-        #map { height: 400px; }
+        #map {
+            height: 600px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+    
     <div id="map"></div>
+    
     <script>
-        // Initialize Leaflet map
-        var map = L.map('map').setView([51.505, -0.09], 13); // Set initial view
+        // Define the markersData passed from the server
+        const markersData = {{{markersData}}}; // Use triple braces to prevent HTML escaping
 
-        // Add a tile layer (replace this URL with your preferred tile provider)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        // Initialize the map
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: { lat: 10.6114766, lng: 75.815269 }, // You can set the center as per your requirements
+            });
 
-        // Add marker for each coordinate
-        var daataa = {{ daata }};
-        
-        daataa.forEach(coord => {
-            console.log(coord)
-            L.marker([coord.latitude, coord.longitude]).addTo(map);
-        });
+            // Loop through the markersData and add markers to the map
+            markersData.forEach(marker => {
+                new google.maps.Marker({
+                    position: { lat: marker.lat, lng: marker.lng },
+                    map: map,
+                    title: marker.popupText
+                });
+            });
+        }
     </script>
-    
-    
+   
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZn6CIbwqD7CsUvxdmOuZ0MVNLfghh5Qw&callback=initMap" async defer></script>
+{{markersData}}
 </body>
 </html>

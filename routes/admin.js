@@ -8,6 +8,10 @@ router.get('/add-location', function(req, res, next) {
   // Render the admin dashboard view
   res.render('admin/add-location', { admin: true }); 
 });
+router.get('/', function(req, res, next) {
+  // Render the admin dashboard view
+  res.render('admin/add-location', { admin: true }); 
+});
 
 router.post('/add-location', async function(req, res, next) {
   

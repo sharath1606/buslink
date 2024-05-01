@@ -11,8 +11,10 @@ const Location = require('../helpers/map-helpers');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   req.session.loggedIn=true;
-    let user = req.session.user;
-    console.log(user); // Log the user object
+  console.log(req.session.user);
+  
+    
+    // Log the user object
     res.render('user/index', { user: req.session.user });
 });
 
@@ -23,16 +25,16 @@ router.get('/trackbus', async (req, res) => {
   try {
       // Retrieve coordinates from the database (assuming you're using Mongoose)
       const coordinates = await Location.find().exec();
-      const cord = coordinates.map(co =>({
-        latitude: co.latitude,
-        longitude: co.longitude,
-        accuracy: co.accuracy,
-      }))
 
-        
-      console.log(coordinates);
-      // Render a webpage and pass the coordinates to it
-      res.render('user/trackbus', { admin:false,coordinates: coordinates ,daata:JSON.stringify(cord)});
+      // Transform coordinates data to include only latitude, longitude, and accuracy
+      const markersData = coordinates.map(co => ({
+          lat: co.latitude,
+          lng: co.longitude,
+          popupText: `Accuracy: ${co.accuracy}`
+      }));
+
+      // Render a webpage and pass the coordinates data to it
+      res.render('user/trackbus', { markersData: JSON.stringify(markersData) });
   } catch (error) {
       console.error('Error fetching coordinates:', error);
       res.status(500).send('Internal Server Error');
@@ -42,25 +44,27 @@ router.get('/trackbus', async (req, res) => {
     
     router.get('/booking-success', function(req, res, next) {
 
- 
-      res.render('user/booking-success', {admin:false});
+      req.session.loggedIn=true;
+      res.render('user/booking-success', {admin:false,user:req.session.user});
       });
       router.get('/services', function(req, res, next) {
-        
+        req.session.loggedIn=true;
  
         res.render('user/services', {admin:false,user: req.session.user});
         });
     router.get('/bookbus', function(req, res, next) {
+      req.session.loggedIn=true;
         // Render the "user/bookbus" view with the specified content
-        res.render('user/bookbus', { admin: false });
+        res.render('user/bookbus', { admin: false,user:req.session.user });
     });
     router.get('/showbus', function(req, res, next) {
-      // Render the "user/bookbus" view with the specified content
+      req.session.loggedIn=true;
       res.render('user/showbus', { admin: false });
   });
     router.get('/searchbus', function(req, res, next) {
+      req.session.loggedIn=true;
       // Render the "user/searchbus" view with the specified content
-      res.render('user/searchbus', { admin: false });
+      res.render('user/searchbus', { admin: false ,user:req.session.user});
   });
   router.post('/searchbus', (req, res) => {
     const startingLocation = req.body.startingLocation;
@@ -139,7 +143,7 @@ router.get('/login', function(req, res, next) {
               const savedItem = await newItem.save();
               console.log(savedItem)
              
-              res.redirect('/')
+              res.redirect('/login')
             } catch (error) {
               console.log("Signup Error", error);
 
