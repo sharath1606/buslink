@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const { response } = require('../app');
 const qrcode = require('qrcode');
 const Location = require('../helpers/map-helpers');
+const Feedback = require('../helpers/feedback-helper');
+
 
 
 /* GET home page. */
@@ -47,10 +49,10 @@ router.get('/trackbus', async (req, res) => {
       req.session.loggedIn=true;
       res.render('user/booking-success', {admin:false,user:req.session.user});
       });
-      router.get('/services', function(req, res, next) {
+      router.get('/feedback', function(req, res, next) {
         req.session.loggedIn=true;
  
-        res.render('user/services', {admin:false,user: req.session.user});
+        res.render('user/feedback', {admin:false,user: req.session.user});
         });
     router.get('/bookbus', function(req, res, next) {
       req.session.loggedIn=true;
@@ -188,7 +190,34 @@ router.get('/login', function(req, res, next) {
             res.render('user/index',{signupage:true});
           });
           
-          
+         
+// Route for receiving feedback via GET request
+router.post('/feedback', async (req, res) => {
+  try {
+    // Get feedback from request body
+    const { feedback } = req.body;
+
+    // Create a new Feedback instance
+    const newFeedback = new Feedback({
+      feedback: feedback
+    });
+
+    // Save the feedback to MongoDB
+    await newFeedback.save();
+     res.render('user/index',{signupage:true});
+
+    // Send a success response
+   
+  } catch (error) {
+    // Send an error response
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Export the router
+module.exports = router;
           
           
           module.exports = router;
